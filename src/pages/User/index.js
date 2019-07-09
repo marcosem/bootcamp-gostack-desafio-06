@@ -24,6 +24,7 @@ export default class User extends Component {
   static propTypes = {
     navigation: PropTypes.shape({
       getParam: PropTypes.func,
+      navigate: PropTypes.func,
     }).isRequired,
   };
 
@@ -36,19 +37,6 @@ export default class User extends Component {
 
   async componentDidMount() {
     this.loadPage();
-    /*
-    const { navigation } = this.props;
-    this.setState({ loading: true });
-
-    const user = navigation.getParam('user');
-
-    const response = await api.get(`/users/${user.login}/starred`);
-
-    this.setState({
-      stars: response.data,
-      loading: false,
-    });
-    */
   }
 
   loadPage = async (page = 1) => {
@@ -83,6 +71,12 @@ export default class User extends Component {
     this.loadPage();
   };
 
+  handleOpenRepositoryPage = repository => {
+    const { navigation } = this.props;
+
+    navigation.navigate('Repository', { repository });
+  };
+
   render() {
     const { navigation } = this.props;
     const { stars, loading, refreshing } = this.state;
@@ -106,7 +100,7 @@ export default class User extends Component {
             onEndReached={this.loadMore}
             keyExtractor={star => String(star.id)}
             renderItem={({ item }) => (
-              <Starred>
+              <Starred onPress={() => this.handleOpenRepositoryPage(item)}>
                 <OwnerAvatar source={{ uri: item.owner.avatar_url }} />
                 <Info>
                   <Title>{item.name}</Title>
