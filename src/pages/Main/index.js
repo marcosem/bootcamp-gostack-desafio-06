@@ -1,19 +1,45 @@
 import React, { Component } from 'react';
+import { Keyboard } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import api from '../../services/api';
 
-import { Container, Form, Input, SubmitButton } from './styles';
+import {
+  Container,
+  Form,
+  Input,
+  SubmitButton,
+  List,
+  User,
+  Avatar,
+  Name,
+  Bio,
+  ProfileButton,
+  ProfileButtonText,
+} from './styles';
 
 export default class Main extends Component {
-  static navigationOptions = {
-    title: 'Users',
-  };
-
   state = {
     newUser: '',
     users: [],
   };
 
+  /*
+  async componentDidMount() {
+    const users = await AsyncStorage.getItem('users');
+
+    if (users) {
+      this.setState({ users: JSON.parse(users) });
+    }
+  }
+
+  componentDidUpdate(_, prevState) {
+    const { users } = this.state;
+
+    if (prevState.users !== users) {
+      AsyncStorage.setItem('users', JSON.stringify(users));
+    }
+  }
+*/
   handleAddUser = async () => {
     const { users, newUser } = this.state;
 
@@ -30,8 +56,17 @@ export default class Main extends Component {
       users: [...users, data],
       newUser: '',
     });
+
+    Keyboard.dismiss();
   };
 
+  /*
+  handleNavigate = () => {
+    const { navigation } = this.props;
+
+    navigation.navigate('User');
+  };
+*/
   render() {
     const { users, newUser } = this.state;
 
@@ -51,7 +86,29 @@ export default class Main extends Component {
             <Icon name="add" size={20} color="#fff" />
           </SubmitButton>
         </Form>
+        <List
+          data={users}
+          keyExtractor={user => user.login}
+          renderItem={({ item }) => (
+            <User>
+              <Avatar source={{ uri: item.avatar }} />
+              <Name>{item.name}</Name>
+              <Bio>{item.bio}</Bio>
+              <ProfileButton
+                onPress={() => {
+                  // this.handleNavigate;
+                }}
+              >
+                <ProfileButtonText>Profile</ProfileButtonText>
+              </ProfileButton>
+            </User>
+          )}
+        />
       </Container>
     );
   }
 }
+
+Main.navigationOptions = {
+  title: 'Users',
+};
