@@ -79,7 +79,7 @@ export default class User extends Component {
 
   render() {
     const { navigation } = this.props;
-    const { stars, loading, refreshing } = this.state;
+    const { stars, loading, refreshing, page } = this.state;
     const user = navigation.getParam('user');
 
     return (
@@ -97,7 +97,7 @@ export default class User extends Component {
             onRefresh={this.refleshList}
             refreshing={refreshing}
             onEndReachedThreshold={0.2}
-            onEndReached={this.loadMore}
+            onEndReached={stars.length / page >= 30 ? this.loadMore : null}
             keyExtractor={star => String(star.id)}
             renderItem={({ item }) => (
               <Starred onPress={() => this.handleOpenRepositoryPage(item)}>
