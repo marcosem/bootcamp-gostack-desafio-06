@@ -1,4 +1,4 @@
-/* import styled from 'styled-components/native';
+import styled from 'styled-components/native';
 import { RectButton } from 'react-native-gesture-handler';
 
 export const Container = styled.View`
@@ -39,7 +39,7 @@ export const Bio = styled.Text`
 export const Loading = styled.ActivityIndicator.attrs({
   color: '#999',
 })`
-  margin-top: 20px;
+  margin-top: 50px;
 `;
 
 export const Stars = styled.FlatList.attrs({
@@ -57,6 +57,16 @@ export const Starred = styled(RectButton)`
   align-items: center;
 `;
 
+/*
+export const Starred = styled(RectButton)`
+  background: #f5f5f5;
+  border-radius: 4px;
+  padding: 10px 15px;
+  margin-bottom: 20px;
+  flex-direction: row;
+  align-items: center;
+`;
+*/
 export const OwnerAvatar = styled.Image`
   height: 42px;
   width: 42px;
@@ -82,4 +92,3 @@ export const Author = styled.Text`
   color: #666;
   margin-top: 2px;
 `;
-*/
